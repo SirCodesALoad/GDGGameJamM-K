@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class PlayerLookScript : MonoBehaviour
 {
-    
     [SerializeField] private float xMin = -8, yMin = -4, xMax = 8, yMax = 12;
     public float sensitivity = 100f;
     private float yRotation = 0;
     private float xRotation = 0;
-
-    
-    void Start()
-    {
-    }
 
     void Update()
     {

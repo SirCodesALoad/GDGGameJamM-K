@@ -4,30 +4,113 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Transform BulletSpawnPoint;
+    public ParticleSystem ImpactParticleSystem;
+    [SerializeField]
+    public TrailRenderer BulletTrail;
+	[SerializeField]
+    public LayerMask Mask;
+
+	[SerializeField]
+    public float BulletDistance = 10f, Speed = 100f;
+    [SerializeField]
+    private float BounceDistance = 10f;
+    [SerializeField]
+    private int MaxNumberTimesCanBounce = 2, NumberOfTimesBounced = 0;
+
+    public bool BouncingBullets = false, PentratingBullet = false;
+  
     void Start()
     {
-        StartCoroutine(SelfDestruct());
+        BulletSpawnPoint = GameObject.Find("Player").GetComponent<PlayerShootScript>().bulletOrigin;
+        
+        // Should be Object Pooled but we don't expect it will matter in the context of our game.
+        Vector3 direction = transform.forward;
+        TrailRenderer trail = Instantiate(BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
+
+		RaycastHit[] hit = Physics.RaycastAll(BulletSpawnPoint.position, direction, float.MaxValue,
+            Mask);
+        if (hit.Length > 0)
+        {
+            var hitPoint = PentratingBullet ? hit[hit.Length - 1] : hit[0];
+            StartCoroutine(SpawnTrail(trail, hitPoint.point, hitPoint.normal, BulletDistance * 100, true, hit));
+        }
+        else
+        {
+            StartCoroutine(SpawnTrail(trail, BulletSpawnPoint.position + direction * 100, Vector3.zero,
+                BulletDistance, false, hit));
+        }
     }
 
-    void OnTriggerEnter(Collider col)
+    protected IEnumerator SpawnTrail(TrailRenderer Trail, Vector3 HitPoint, Vector3 HitNormal, float BulletDistance, bool MadeImpact, RaycastHit[] rayCastHit)
     {
-        if (col.gameObject.tag == "Targetable")
+        Vector3 startPosition = Trail.transform.position;
+        Vector3 direction = (HitPoint - Trail.transform.position).normalized;
+
+        float distance = Vector3.Distance(Trail.transform.position, HitPoint);
+        float startingDistance = distance;
+
+        while (distance > 0)
         {
-            col.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
-            Destroy(gameObject);
-            Debug.Log("Hittable Object Hit!");
-            if (col.gameObject.GetComponent<Target>())
+            Trail.transform.position = Vector3.Lerp(startPosition, HitPoint, 1 - (distance / startingDistance));
+            distance -= Time.deltaTime * Speed;
+
+            yield return null;
+        }
+
+        Trail.transform.position = HitPoint;
+		Destroy(Trail.gameObject, Trail.time);
+        if (MadeImpact)
+        {
+            OnHit(rayCastHit);
+            if (BouncingBullets && BounceDistance > 0 && NumberOfTimesBounced <= MaxNumberTimesCanBounce)
             {
-                col.gameObject.GetComponent<Target>().OnHit();
+                MaxNumberTimesCanBounce++;
+                Vector3 bounceDirection = Vector3.Reflect(direction, HitNormal);
+                RaycastHit[] hit = Physics.RaycastAll(HitPoint, bounceDirection, BounceDistance, Mask);
+
+                if (hit.Length > 0)
+                {
+                    yield return StartCoroutine(SpawnTrail(
+                        Trail,
+                        hit[0].point,
+                        hit[0].normal,
+                        BounceDistance - Vector3.Distance(hit[0].point, HitPoint),
+                        true, hit
+                    ));
+                }
+                else
+                {
+                    yield return StartCoroutine(SpawnTrail(
+                        Trail,
+                        HitPoint + bounceDirection * BounceDistance,
+                        Vector3.zero,
+                        0,
+                        false, hit
+                    ));
+                }
             }
         }
-        Debug.Log("Object Hit: " + col.gameObject.name + " Tag: " + col.gameObject.tag);
     }
 
-    IEnumerator SelfDestruct()
+    public virtual void OnHit(RaycastHit[] rayCastHit)
     {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        for (int i = 0; i < rayCastHit.Length; i++)
+        {
+            var hit = rayCastHit[i];
+            if (hit.collider.gameObject.tag == "Targetable")
+            {
+                //Debug.Log("Hittable Object Hit!");
+                if (hit.collider.gameObject.GetComponent<Target>())
+                {
+                    hit.collider.gameObject.GetComponent<Target>().OnHit();
+                }
+            }
+
+            if (!PentratingBullet)
+            {
+                return;
+            }
+        }
     }
 }

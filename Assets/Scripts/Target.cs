@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum BackBoardMaterial
 {
@@ -11,16 +14,33 @@ public enum BackBoardMaterial
 public class Target : MonoBehaviour
 {
     public BackBoardMaterial backBoard = BackBoardMaterial.Wood;
-    private bool hit = false;
+    public bool hit = false;
+    private static GameManager Manager;
+    public UnityEvent<Target> TargetHit; 
+	public bool ReportHitToGameManager = true;
+    
+    void Start()
+    {
+        if (TargetHit == null)
+            TargetHit = new UnityEvent<Target>();
+
+        Manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        TargetHit.AddListener(Manager.PlayerHitTarget);
+    }
 
     public virtual void OnHit()
     {
         if (!hit)
         {
             //transform.Rotate(Vector3.right, -90f);
+            hit = true;
             StartCoroutine(KnockDown());
+			if (ReportHitToGameManager)
+			{
+            	TargetHit.Invoke(this);
+			}
         }
-        hit = true;
     }
 
     IEnumerator KnockDown()
@@ -28,7 +48,7 @@ public class Target : MonoBehaviour
         Quaternion currentRot = transform.rotation;
 
         float counter = 0f;
-        while (counter < 0.5)
+        while (counter < 0.5 && hit)
         {
             counter += Time.deltaTime;
             transform.rotation = Quaternion.Lerp(currentRot, Quaternion.Euler(new Vector3(90f, 0f, 0f)), counter / 0.5f);
@@ -36,9 +56,24 @@ public class Target : MonoBehaviour
         }
     }
     
+    IEnumerator ResetTarget()
+    {
+        Quaternion currentRot = transform.rotation;
+
+        float counter = 0f;
+        while (counter < 0.5f)
+        {
+            counter += Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(currentRot, Quaternion.Euler(new Vector3(0f, 0f, 0f)), counter / 0.5f);
+            yield return null;
+        }
+    }
+    
     public virtual void Reset()
     {
-        transform.Rotate(Vector3.right, 0f);
         hit = false;
+        Debug.Log("ResetTarget");
+        StopAllCoroutines();
+        StartCoroutine(ResetTarget());
     }
 }
