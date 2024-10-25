@@ -5,6 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public Transform BulletSpawnPoint;
+    private Collider[] CollidersCaughtInExplosion = new Collider[20];
+    [SerializeField] private ParticleSystem ExplosionParticleSystem;
     public ParticleSystem ImpactParticleSystem;
     [SerializeField]
     public TrailRenderer BulletTrail;
@@ -14,11 +16,11 @@ public class Bullet : MonoBehaviour
 	[SerializeField]
     public float BulletDistance = 10f, Speed = 100f;
     [SerializeField]
-    private float BounceDistance = 10f;
+    private float BounceDistance = 10f, ExplosionForceForPhysObjects = 100;
     [SerializeField]
-    private int MaxNumberTimesCanBounce = 2, NumberOfTimesBounced = 0;
+    private int MaxNumberTimesCanBounce = 2, NumberOfTimesBounced = 0, ExplosionRadius = 4;
 
-    public bool BouncingBullets = false, PentratingBullet = false;
+    public bool BouncingBullets = false, PentratingBullet = false, ExplodingBullet = false;
   
     void Start()
     {
@@ -89,6 +91,29 @@ public class Bullet : MonoBehaviour
                         false, hit
                     ));
                 }
+            }
+            else if (ExplodingBullet)
+            {
+                int numColliders = Physics.OverlapSphereNonAlloc(HitPoint, ExplosionRadius, CollidersCaughtInExplosion, Mask);
+                var Explosion = Instantiate(ExplosionParticleSystem, HitPoint, Quaternion.identity);
+                Explosion.Play();
+
+                if (numColliders > 0)
+                {
+                    for (int i = 0; i < numColliders; i++)
+                    {
+                        if (CollidersCaughtInExplosion[i].TryGetComponent(out Rigidbody rb))
+                        {
+                            rb.AddExplosionForce(ExplosionForceForPhysObjects, transform.position, ExplosionRadius);
+                        }
+                        if (CollidersCaughtInExplosion[i].TryGetComponent(out Target target))
+                        {
+                            target.OnHit();
+                        }
+                    }
+                }
+                
+                Destroy(Explosion, 0.5f);
             }
         }
     }

@@ -20,6 +20,5 @@ public class PlayerLookScript : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, xMin, xMax);
 
         transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
-        
     }
 }

@@ -18,6 +18,7 @@ public class Target : MonoBehaviour
     private static GameManager Manager;
     public UnityEvent<Target> TargetHit; 
 	public bool ReportHitToGameManager = true;
+    protected Collider _collider;
     
     void Start()
     {
@@ -27,6 +28,8 @@ public class Target : MonoBehaviour
         Manager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         TargetHit.AddListener(Manager.PlayerHitTarget);
+
+        _collider = this.GetComponent<Collider>();
     }
 
     public virtual void OnHit()
@@ -54,6 +57,8 @@ public class Target : MonoBehaviour
             transform.rotation = Quaternion.Lerp(currentRot, Quaternion.Euler(new Vector3(90f, 0f, 0f)), counter / 0.5f);
             yield return null;
         }
+
+        _collider.enabled = false;
     }
     
     IEnumerator ResetTarget()
@@ -72,6 +77,7 @@ public class Target : MonoBehaviour
     public virtual void Reset()
     {
         hit = false;
+        _collider.enabled = true;
         Debug.Log("ResetTarget");
         StopAllCoroutines();
         StartCoroutine(ResetTarget());

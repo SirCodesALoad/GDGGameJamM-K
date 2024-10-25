@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletSpawnPoint: {fileID: 0}
+  ExplosionParticleSystem: {fileID: 542861466538405447, guid: 0ff330dd2ad173a43ae257fd6e5a0c06, type: 3}
   ImpactParticleSystem: {fileID: 6297080997491578551, guid: 2422d2e419f62a74dbbc0c93f40feeef, type: 3}
   BulletTrail: {fileID: 1253232652052086483, guid: d4f3e1b2b8bce944c99f029283d0f758, type: 3}
   Mask:
@@ -53,7 +54,10 @@ MonoBehaviour:
   BulletDistance: 10
   Speed: 100
   BounceDistance: 10
+  ExplosionForceForPhysObjects: 100
   MaxNumberTimesCanBounce: 2
   NumberOfTimesBounced: 0
+  ExplosionRadius: 4
   BouncingBullets: 0
   PentratingBullet: 0
+  ExplodingBullet: 0
