@@ -1,8 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public enum Direction
 {
@@ -14,6 +13,7 @@ public class TargetThatFiresProjectile : Target
     
     // I've made this a bullet for now. But we can easily make this a Phyisics object, but we're likely still going to end up with relying on the hitscan to reliably trigger the colliders.
     [SerializeField] public GameObject  ObjectToSpawn;
+    [SerializeField] public Transform  ProjectileSpawnPoint;
 
     
     void Start()
@@ -57,9 +57,11 @@ public class TargetThatFiresProjectile : Target
                 direction = Vector3.down;
                 break;
         }
-        
-        GameObject Projectile = Instantiate(ObjectToSpawn, transform.position, Quaternion.identity);
-        Projectile.transform.LookAt(direction + transform.position);
+
+        Debug.Log("PROJECT FIRED");
+        GameObject Projectile = Instantiate(ObjectToSpawn, ProjectileSpawnPoint.position, Quaternion.identity);
+        Projectile.GetComponent<Bullet>().BulletSpawnPoint = ProjectileSpawnPoint;
+        Projectile.transform.LookAt(ProjectileSpawnPoint.position + direction);
 
     }
     

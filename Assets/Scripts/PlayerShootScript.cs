@@ -72,6 +72,7 @@ public class PlayerShootScript : MonoBehaviour
             currentAmmo--;
             var bulletInstance = Instantiate(Bullet, bulletOrigin.transform.position, Quaternion.identity);
             var bullet = bulletInstance.GetComponent<Bullet>();
+            bullet.BulletSpawnPoint = bulletOrigin;
             switch(ActiveAmmo)
             {
                 case AmmoTypes.Bullet:

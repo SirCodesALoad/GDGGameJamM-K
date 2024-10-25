@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
   
     void Start()
     {
-        BulletSpawnPoint = GameObject.Find("Player").GetComponent<PlayerShootScript>().bulletOrigin;
+        //BulletSpawnPoint = GameObject.Find("Player").GetComponent<PlayerShootScript>().bulletOrigin;
         
         // Should be Object Pooled but we don't expect it will matter in the context of our game.
         Vector3 direction = transform.forward;
