@@ -8,13 +8,14 @@ public enum AmmoTypes
 {
     Bullet,
     Riochet,
-    Pen
+    Pen,
+    Explode
 }
 
 public class PlayerShootScript : MonoBehaviour
 {
     public Transform bulletOrigin;
-    public int currentAmmo, maxAmmo = 20;
+    public int currentAmmo, maxAmmo = 20, riochetAmmo = 0, penAmmo = 0, explodeAmmo = 0;
 	[SerializeField]
     private ParticleSystem MuzzleFlash;
     [SerializeField] public GameObject  Bullet;
@@ -57,6 +58,11 @@ public class PlayerShootScript : MonoBehaviour
             Debug.Log("Ammo Switched to: Pen");
             ActiveAmmo = AmmoTypes.Pen;
         }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Ammo Switched to: Explode");
+            ActiveAmmo = AmmoTypes.Explode;
+        }
     }
 
     void Fire(Vector3 mouseWorldPos)
@@ -71,14 +77,22 @@ public class PlayerShootScript : MonoBehaviour
                 case AmmoTypes.Bullet:
                     bullet.BouncingBullets = false;
                     bullet.PentratingBullet = false;
+                    bullet.ExplodingBullet = false;
                     break;
                 case AmmoTypes.Riochet:
                     bullet.BouncingBullets = true;
                     bullet.PentratingBullet = false;
+                    bullet.ExplodingBullet = false;
                     break;
                 case AmmoTypes.Pen:
                     bullet.BouncingBullets = false;
                     bullet.PentratingBullet = true;
+                    bullet.ExplodingBullet = false;
+                    break;
+                case AmmoTypes.Explode:
+                    bullet.BouncingBullets = false;
+                    bullet.PentratingBullet = false;
+                    bullet.ExplodingBullet = true;
                     break;
             }
                 
