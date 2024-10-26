@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00f1f154275b4c54591c36ebe8227478, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: 
-  NewRun: 1
+  NewRun: 0
   DefaultRegAmmo: 200
   DefaultPenAmmo: 10
   DefaultRicAmmo: 10
   DefaultExpAmmo: 10
-  CurrentRegAmmo: 0
+  CurrentRegAmmo: 195
   CurrentPenAmmo: 0
+<<<<<<< Updated upstream
   CurrentRicAmmo: -22
   CurrentExpAmmo: -1
   RegShotsFired: 200
@@ -31,3 +32,17 @@ MonoBehaviour:
   LevelProgressions: 11
   LevelRegressions: 4
   GameTime: 1037.9551
+=======
+  CurrentRicAmmo: 0
+  CurrentExpAmmo: 0
+  RegShotsFired: 5
+  PenShotsFired: 0
+  RicShotsFired: 0
+  ExpShotsFired: 0
+  TotalShotsFired: 5
+  TargetSetsPassed: 1
+  TargetSetsFailed: 1
+  LevelProgressions: 1
+  LevelRegressions: 0
+  GameTime: 16.877853
+>>>>>>> Stashed changes

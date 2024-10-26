@@ -19,6 +19,10 @@ public class Target : MonoBehaviour
     public UnityEvent<Target> TargetHit; 
 	public bool ReportHitToGameManager = true;
     protected Collider _collider;
+
+    public Animator m_Animator;
+
+    AudioSource audioData;
     
     void Start()
     {
@@ -30,6 +34,10 @@ public class Target : MonoBehaviour
         TargetHit.AddListener(Manager.PlayerHitTarget);
 
         _collider = this.GetComponent<Collider>();
+
+        m_Animator = gameObject.GetComponent<Animator>();
+
+        audioData = GetComponent<AudioSource>();
     }
 
     public virtual void OnHit()
@@ -39,6 +47,8 @@ public class Target : MonoBehaviour
             //transform.Rotate(Vector3.right, -90f);
             hit = true;
             StartCoroutine(KnockDown());
+            m_Animator.SetTrigger("RecoilHit");
+            audioData.Play(0);
 			if (ReportHitToGameManager)
 			{
             	TargetHit.Invoke(this);
