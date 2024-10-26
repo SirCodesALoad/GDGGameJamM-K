@@ -31,6 +31,24 @@ public class PlayerShootScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         currentAmmo = maxAmmo;
         ActiveAmmo = AmmoTypes.Bullet;
+
+        // Get new or persistent ammo values
+        if(gameData.NewRun == true)
+        {
+            currentAmmo = gameData.DefaultRegAmmo;
+            riochetAmmo = gameData.DefaultRicAmmo;
+            penAmmo = gameData.DefaultPenAmmo;
+            explodeAmmo = gameData.DefaultExpAmmo;
+            gameData.NewRun = false;
+            gameData.Reset();
+        }
+        else
+        {
+            currentAmmo = gameData.CurrentRegAmmo;
+            riochetAmmo = gameData.CurrentRicAmmo;
+            penAmmo = gameData.CurrentPenAmmo;
+            explodeAmmo = gameData.CurrentExpAmmo;
+        }
     }
 
     // Update is called once per frame
@@ -64,13 +82,15 @@ public class PlayerShootScript : MonoBehaviour
             Debug.Log("Ammo Switched to: Explode");
             ActiveAmmo = AmmoTypes.Explode;
         }
+
+        gameData.GameTime += Time.deltaTime;
     }
 
     void Fire(Vector3 mouseWorldPos)
     {
         if (currentAmmo > 0)
         {
-            currentAmmo--;
+            //currentAmmo--;
             gameData.TotalShotsFired++;
             var bulletInstance = Instantiate(Bullet, bulletOrigin.transform.position, Quaternion.identity);
             var bullet = bulletInstance.GetComponent<Bullet>();
@@ -81,21 +101,33 @@ public class PlayerShootScript : MonoBehaviour
                     bullet.BouncingBullets = false;
                     bullet.PentratingBullet = false;
                     bullet.ExplodingBullet = false;
+                    currentAmmo--;
+                    gameData.RegShotsFired++;
+                    gameData.CurrentRegAmmo = currentAmmo;
                     break;
                 case AmmoTypes.Riochet:
                     bullet.BouncingBullets = true;
                     bullet.PentratingBullet = false;
                     bullet.ExplodingBullet = false;
+                    riochetAmmo--;
+                    gameData.RicShotsFired++;
+                    gameData.CurrentRicAmmo = riochetAmmo;
                     break;
                 case AmmoTypes.Pen:
                     bullet.BouncingBullets = false;
                     bullet.PentratingBullet = true;
                     bullet.ExplodingBullet = false;
+                    penAmmo--;
+                    gameData.PenShotsFired++;
+                    gameData.CurrentPenAmmo = penAmmo;
                     break;
                 case AmmoTypes.Explode:
                     bullet.BouncingBullets = false;
                     bullet.PentratingBullet = false;
                     bullet.ExplodingBullet = true;
+                    explodeAmmo--;
+                    gameData.ExpShotsFired++;
+                    gameData.CurrentExpAmmo = explodeAmmo;
                     break;
             }
                 

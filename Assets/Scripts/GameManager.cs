@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public float DelayBetweenLevels = 0.5f;
     private int CurrentTargetIndex, CurrentLeveLIndex;
 
+    [SerializeField] private DataStore gameData;
+
     public void PlayerHitTarget(Target target)
     {
         Debug.Log("PLAYER HAS HIT TARGET!");
@@ -24,6 +26,7 @@ public class GameManager : MonoBehaviour
         {
             // Oh ho! Player fucked up!
             CurrentTargetIndex = 0;
+            gameData.TargetSetsFailed++;
 
             for (int i = 0; i < TargetsHit.Count; i++)
             {
@@ -53,6 +56,7 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentNumberOfResetsTriggered >= MaxNumberOfResets)
         {
+            gameData.LevelRegressions++;
             var buildIndex = SceneManager.GetActiveScene().buildIndex - 1;
             if (buildIndex > -1)
             {
@@ -67,6 +71,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EndLevel()
     {
+        gameData.LevelProgressions++;
+        gameData.TargetSetsPassed++;
         yield return new WaitForSeconds(DelayBetweenLevels);
         var buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (buildIndex < SceneManager.sceneCountInBuildSettings)
