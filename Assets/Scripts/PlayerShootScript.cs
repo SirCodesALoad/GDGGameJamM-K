@@ -28,6 +28,7 @@ public class PlayerShootScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         currentAmmo = maxAmmo;
         ActiveAmmo = AmmoTypes.Bullet;
     }
@@ -36,8 +37,7 @@ public class PlayerShootScript : MonoBehaviour
     void Update()
     {
         Vector3 mouseScreenPos = Input.mousePosition;
-        mouseScreenPos += Camera.main.transform.forward * 200f; 
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+        Vector3 mouseWorldPos = Camera.main.ScreenPointToRay(mouseScreenPos).GetPoint(200f);
         if (Input.GetMouseButtonDown(0))
         {
 			//MuzzleFlash.Play();
@@ -74,6 +74,7 @@ public class PlayerShootScript : MonoBehaviour
             gameData.TotalShotsFired++;
             var bulletInstance = Instantiate(Bullet, bulletOrigin.transform.position, Quaternion.identity);
             var bullet = bulletInstance.GetComponent<Bullet>();
+            bullet.BulletSpawnPoint = bulletOrigin;
             switch(ActiveAmmo)
             {
                 case AmmoTypes.Bullet:

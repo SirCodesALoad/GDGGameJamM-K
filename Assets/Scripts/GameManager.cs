@@ -8,17 +8,9 @@ using Debug = UnityEngine.Debug;
 public class GameManager : MonoBehaviour
 {
     public List<Target> TargetSequence = new List<Target>{}, TargetsHit = new List<Target>{};
-    public int CurrentTargetIndex;
-    [Space(10)]
-    public Object PreviousScene;
-    public Object NextScene;
-
-    public int MaxTargetSetFails = 5;
-    private int CurrentTargetSetFails = 0;
-
-    [SerializeField] private DataStore gameData;
-
-    private bool SceneProgression = false;
+    public int MaxNumberOfResets = 5, CurrentNumberOfResetsTriggered = 0;
+    public float DelayBetweenLevels = 0.5f;
+    private int CurrentTargetIndex, CurrentLeveLIndex;
 
     public void PlayerHitTarget(Target target)
     {
@@ -39,6 +31,8 @@ public class GameManager : MonoBehaviour
             }
             TargetsHit.Clear();
             Debug.Log("PLAYER HAS HIT INCORRECT TARGET!");
+            CurrentNumberOfResetsTriggered++;
+            OnPlayerResetTargets();
         }
         else
         {
@@ -50,44 +44,40 @@ public class GameManager : MonoBehaviour
             {
                 //Win! Move onto next stage.
                 Debug.Log("PLAYER HAS HIT ALL TARGETS IN SEQUENCE!");
-
-                // Progress the player to the next scene
-                SceneProgression = true;
-                StartCoroutine(waiter());
+                StartCoroutine(EndLevel());
             }
         }
     }
 
-    // Direct scenes forward or backward depending on 'SceneProgression' value when called
-    IEnumerator waiter()
+    void OnPlayerResetTargets()
     {
-        Debug.Log("Countdown to next scene started");
-
-        yield return new WaitForSeconds(3.0f);
-
-        if(SceneProgression == true)
+        if (CurrentNumberOfResetsTriggered >= MaxNumberOfResets)
         {
-            LoadNextScene();
+            var buildIndex = SceneManager.GetActiveScene().buildIndex - 1;
+            if (buildIndex > -1)
+            {
+                SceneManager.LoadScene(buildIndex);
+            }
+            else
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
+    IEnumerator EndLevel()
+    {
+        yield return new WaitForSeconds(DelayBetweenLevels);
+        var buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (buildIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(buildIndex);
         }
         else
         {
-            LoadPreviousScene();
-        }
-    }
-
-    void LoadPreviousScene()
-    {
-        if (PreviousScene != null)
-        {
-            SceneManager.LoadScene(PreviousScene.name);
-        }
-    }
-
-    void LoadNextScene()
-    {
-        if (NextScene != null)
-        {
-            SceneManager.LoadScene(NextScene.name);
+            //Player won!
+            Debug.Log("PLAYER HAS COMPLETED ALL SCENES");
+        
         }
     }
 
@@ -96,4 +86,5 @@ public class GameManager : MonoBehaviour
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
+    
 }
