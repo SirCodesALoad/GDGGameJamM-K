@@ -20,10 +20,11 @@ public class PlayerShootScript : MonoBehaviour
     private ParticleSystem MuzzleFlash;
     [SerializeField] public GameObject  Bullet;
     public AmmoTypes ActiveAmmo;
-    
-    
+
+    [SerializeField] private DataStore gameData;
+
     //public float  bulletForce = 10000f;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +71,7 @@ public class PlayerShootScript : MonoBehaviour
         if (currentAmmo > 0)
         {
             currentAmmo--;
+            gameData.TotalShotsFired++;
             var bulletInstance = Instantiate(Bullet, bulletOrigin.transform.position, Quaternion.identity);
             var bullet = bulletInstance.GetComponent<Bullet>();
             switch(ActiveAmmo)

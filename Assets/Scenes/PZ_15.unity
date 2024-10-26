@@ -1063,6 +1063,8 @@ MonoBehaviour:
   - {fileID: 722120934}
   TargetsHit: []
   CurrentTargetIndex: 0
+  PreviousScene: {fileID: 102900000, guid: 981ac47e5928c784a94e1cb040bc8a32, type: 3}
+  NextScene: {fileID: 102900000, guid: db68d9307e0474341aade01079f9793d, type: 3}
 --- !u!4 &663867909
 Transform:
   m_ObjectHideFlags: 0

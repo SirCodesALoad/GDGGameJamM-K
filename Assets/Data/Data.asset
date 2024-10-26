@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f1f154275b4c54591c36ebe8227478, type: 3}
+  m_Name: Data
+  m_EditorClassIdentifier: 
+  CurrentRegAmmo: 0
+  CurrentPenAmmo: 0
+  CurrentRicAmmo: 0
+  CurrentExpAmmo: 0
+  RegShotsFired: 0
+  PenShotsFired: 0
+  RicShotsFired: 0
+  ExpShotsFired: 0
+  TotalShotsFired: 0
+  TargetSetsPassed: 0
+  TargetSetsFailed: 0
+  LevelProgressions: 0
+  LevelRegressions: 0
