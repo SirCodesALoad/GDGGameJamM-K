@@ -4,5 +4,53 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/PZ_1.unity
+    guid: b28665fb3deeb414a81db02371dc2a79
+  - enabled: 1
+    path: Assets/Scenes/PZ_2.unity
+    guid: c47f39adf4f435e42bb9e522dc49edb4
+  - enabled: 1
+    path: Assets/Scenes/PZ_3.unity
+    guid: e2191a972acecba43999427571ea35dc
+  - enabled: 1
+    path: Assets/Scenes/PZ_4.unity
+    guid: 42cc79d36070f9340bb13d4ea67223df
+  - enabled: 1
+    path: Assets/Scenes/PZ_5.unity
+    guid: 1d66b6e40b407cb46845b66a43e6599e
+  - enabled: 1
+    path: Assets/Scenes/PZ_6.unity
+    guid: 2adbbc9265570284c9d3d38d289a7b0c
+  - enabled: 1
+    path: Assets/Scenes/PZ_7.unity
+    guid: d5a8b444a39274543ad384457b1ea4d9
+  - enabled: 1
+    path: Assets/Scenes/PZ_8.unity
+    guid: 87427f6b61b851444ada0173c12d5153
+  - enabled: 1
+    path: Assets/Scenes/PZ_9.unity
+    guid: 828d49a098ca1e044b628ead199d11b6
+  - enabled: 1
+    path: Assets/Scenes/PZ_10.unity
+    guid: d59e23968ac7f964a85892fdcdd264d6
+  - enabled: 1
+    path: Assets/Scenes/PZ_11.unity
+    guid: 207519b772a17384087eeb3d8b18ca1e
+  - enabled: 1
+    path: Assets/Scenes/PZ_12.unity
+    guid: 42ad54232007e774db1451093a953eda
+  - enabled: 1
+    path: Assets/Scenes/PZ_13.unity
+    guid: 7df92a87ac56d7e45bdb76895ea7c80e
+  - enabled: 1
+    path: Assets/Scenes/PZ_14.unity
+    guid: 981ac47e5928c784a94e1cb040bc8a32
+  - enabled: 1
+    path: Assets/Scenes/PZ_15.unity
+    guid: 5369d532061a330479c9e349f09d9814
+  - enabled: 1
+    path: Assets/Scenes/PZ_16.unity
+    guid: db68d9307e0474341aade01079f9793d
   m_configObjects: {}
