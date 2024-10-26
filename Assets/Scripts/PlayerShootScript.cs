@@ -32,10 +32,19 @@ public class PlayerShootScript : MonoBehaviour
     private ActiveBulletLoadedUI CurrentBulletLoaded;
 
     private UnityEvent GameFailure;
-    
+
+    public AudioClip RegGunShot;
+    public AudioClip PenGunShot;
+    public AudioClip RicGunShot;
+    public AudioClip ExpGunShot;
+
+    public AudioSource audio;
+
     // Start is called before the first frame update
     void Start()
     {
+        audio = GetComponent<AudioSource>();
+
         Cursor.lockState = CursorLockMode.Confined;
         currentAmmo = maxAmmo;
         CurrentBulletLoaded = GameObject.Find("CurrentBulletLoaded").GetComponent<ActiveBulletLoadedUI>();
