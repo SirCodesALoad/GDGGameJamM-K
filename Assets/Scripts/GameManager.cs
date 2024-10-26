@@ -14,17 +14,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private DataStore gameData;
 
-    public AudioClip SceneProgressionSound;
-    public AudioClip SceneRegressionSound;
-    public AudioClip TargetResetSound;
-    public AudioSource audio;
-    //public AudioClip 
-
-    void Start()
-    {
-        audio = GetComponent<AudioSource>();
-    }
-
     public void PlayerHitTarget(Target target)
     {
         Debug.Log("PLAYER HAS HIT TARGET!");
@@ -46,8 +35,6 @@ public class GameManager : MonoBehaviour
             TargetsHit.Clear();
             Debug.Log("PLAYER HAS HIT INCORRECT TARGET!");
             CurrentNumberOfResetsTriggered++;
-            GetComponent<AudioSource>().clip = TargetResetSound;
-            GetComponent<AudioSource>().Play(0);
             OnPlayerResetTargets();
         }
         else
@@ -70,8 +57,6 @@ public class GameManager : MonoBehaviour
         if (CurrentNumberOfResetsTriggered >= MaxNumberOfResets)
         {
             gameData.LevelRegressions++;
-            GetComponent<AudioSource>().clip = SceneRegressionSound;
-            GetComponent<AudioSource>().Play(0);
             var buildIndex = SceneManager.GetActiveScene().buildIndex - 1;
             if (buildIndex > -1)
             {
@@ -86,11 +71,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EndLevel()
     {
-        
         gameData.LevelProgressions++;
         gameData.TargetSetsPassed++;
-        GetComponent<AudioSource>().clip = SceneProgressionSound;
-        GetComponent<AudioSource>().Play(0);
         yield return new WaitForSeconds(DelayBetweenLevels);
         var buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (buildIndex < SceneManager.sceneCountInBuildSettings)
