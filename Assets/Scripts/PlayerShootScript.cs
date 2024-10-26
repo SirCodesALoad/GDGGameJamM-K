@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Events;
 using Debug = UnityEngine.Debug;
+using UnityEngine.EventSystems;
 
 public enum AmmoTypes
 {
@@ -22,6 +24,10 @@ public class PlayerShootScript : MonoBehaviour
     public AmmoTypes ActiveAmmo;
 
     [SerializeField] private DataStore gameData;
+
+    public UnityEvent AmmoChangedEvent;
+
+    public AmmoCounterUI[] AmmoCounterUis = new AmmoCounterUI[]{};
 
     //public float  bulletForce = 10000f;
 
@@ -49,6 +55,25 @@ public class PlayerShootScript : MonoBehaviour
             penAmmo = gameData.CurrentPenAmmo;
             explodeAmmo = gameData.CurrentExpAmmo;
         }
+
+        if (AmmoChangedEvent == null)
+        {
+            AmmoChangedEvent = new UnityEvent();
+        }
+
+        if (AmmoCounterUis[0] == null)
+        {
+            var GameObjects = GameObject.FindGameObjectsWithTag("BulletDisplay");
+            for (int i = 0; i < GameObjects.Length; i++)
+            {
+                AmmoCounterUis[i] = GameObjects[i].GetComponent<AmmoCounterUI>();
+            }
+        }
+        for (int i = 0; i < AmmoCounterUis.Length; i++)
+        {
+            AmmoChangedEvent.AddListener(AmmoCounterUis[i].UpdateAmmo);
+        }
+        
     }
 
     // Update is called once per frame
@@ -56,7 +81,8 @@ public class PlayerShootScript : MonoBehaviour
     {
         Vector3 mouseScreenPos = Input.mousePosition;
         Vector3 mouseWorldPos = Camera.main.ScreenPointToRay(mouseScreenPos).GetPoint(200f);
-        if (Input.GetMouseButtonDown(0))
+        bulletOrigin.transform.LookAt(mouseWorldPos);
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
 			//MuzzleFlash.Play();
             Fire(mouseWorldPos);
@@ -130,7 +156,7 @@ public class PlayerShootScript : MonoBehaviour
                     gameData.CurrentExpAmmo = explodeAmmo;
                     break;
             }
-                
+            AmmoChangedEvent.Invoke();
             bulletOrigin.transform.LookAt(mouseWorldPos);
             bulletInstance.transform.LookAt(mouseWorldPos);
         }
