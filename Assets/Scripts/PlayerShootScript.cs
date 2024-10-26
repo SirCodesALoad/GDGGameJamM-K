@@ -31,17 +31,20 @@ public class PlayerShootScript : MonoBehaviour
     
     private ActiveBulletLoadedUI CurrentBulletLoaded;
 
-
-    //public float  bulletForce = 10000f;
-
+    private UnityEvent GameFailure;
+    
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
         currentAmmo = maxAmmo;
-        ActiveAmmo = AmmoTypes.Bullet;
         CurrentBulletLoaded = GameObject.Find("CurrentBulletLoaded").GetComponent<ActiveBulletLoadedUI>();
+        if (GameFailure == null)
+        {
+            new UnityEvent();
+        }
 
+        GameFailure.AddListener(GameObject.Find("GameManager").GetComponent<GameManager>().OnGameLost);
 
         // Get new or persistent ammo values
         if(gameData.NewRun == true)
@@ -79,6 +82,9 @@ public class PlayerShootScript : MonoBehaviour
             AmmoChangedEvent.AddListener(AmmoCounterUis[i].UpdateAmmo);
         }
         
+        AmmoChangedEvent.Invoke();
+
+        PlayerSwapActiveAmmo(AmmoTypes.Bullet);
     }
 
     public void PlayerSwapActiveAmmo(AmmoTypes ammo)
@@ -134,6 +140,7 @@ public class PlayerShootScript : MonoBehaviour
         if (currentAmmo <= 0 && explodeAmmo  <= 0 && penAmmo <= 0 && riochetAmmo <= 0)
         {
             //We've run out of ammo game failure.
+            GameFailure.Invoke();
             return false;
         }
         return false;

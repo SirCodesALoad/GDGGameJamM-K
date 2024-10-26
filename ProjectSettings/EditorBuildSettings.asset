@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/PZ_MainMenui.unity
+    guid: 6a9e3211232350d4c8dc1225ee17c8a1
+  - enabled: 1
     path: Assets/Scenes/PZ_1.unity
     guid: b28665fb3deeb414a81db02371dc2a79
   - enabled: 1
@@ -53,4 +56,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PZ_16.unity
     guid: db68d9307e0474341aade01079f9793d
+  - enabled: 1
+    path: Assets/Scenes/PZ_GameWon.unity
+    guid: 4d9dfb5bebffb0a4f96e828396d4f801
+  - enabled: 1
+    path: Assets/Scenes/PZ_GameLost.unity
+    guid: 8c525f59d3dc4b7419b5735d59c847f9
   m_configObjects: {}

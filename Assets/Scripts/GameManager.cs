@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public List<Target> TargetSequence = new List<Target>{}, TargetsHit = new List<Target>{};
     public int MaxNumberOfResets = 5, CurrentNumberOfResetsTriggered = 0;
     public float DelayBetweenLevels = 0.5f;
-    private int CurrentTargetIndex, CurrentLeveLIndex;
+    private int CurrentTargetIndex, CurrentLeveLIndex, MainMenuIndex = 0, GameStartIndex = 1, GameWomIndex = 17, GameLostIndex = 18;
 
     [SerializeField] private DataStore gameData;
 
@@ -58,13 +58,13 @@ public class GameManager : MonoBehaviour
         {
             gameData.LevelRegressions++;
             var buildIndex = SceneManager.GetActiveScene().buildIndex - 1;
-            if (buildIndex > -1)
+            if (buildIndex > 0)
             {
                 SceneManager.LoadScene(buildIndex);
             }
             else
             {
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(1);
             }
         }
     }
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         gameData.TargetSetsPassed++;
         yield return new WaitForSeconds(DelayBetweenLevels);
         var buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (buildIndex < SceneManager.sceneCountInBuildSettings)
+        if (buildIndex < GameWomIndex)
         {
             SceneManager.LoadScene(buildIndex);
         }
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
         {
             //Player won!
             Debug.Log("PLAYER HAS COMPLETED ALL SCENES");
-        
+            SceneManager.LoadScene(GameWomIndex);
         }
     }
 
@@ -91,6 +91,22 @@ public class GameManager : MonoBehaviour
     {
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+    }
+
+    public void StartNewGame()
+    {
+        gameData.NewRun = true;
+        SceneManager.LoadScene(GameStartIndex);
+    }
+    
+    public void OnGameLost()
+    {
+        SceneManager.LoadScene(GameLostIndex);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
     
 }
