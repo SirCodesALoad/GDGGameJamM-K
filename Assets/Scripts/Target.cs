@@ -36,8 +36,8 @@ public class Target : MonoBehaviour
     {
         if (!hit)
         {
-            //transform.Rotate(Vector3.right, -90f);
             hit = true;
+            StopAllCoroutines();
             StartCoroutine(KnockDown());
 			if (ReportHitToGameManager)
 			{
@@ -49,18 +49,17 @@ public class Target : MonoBehaviour
     IEnumerator KnockDown()
     {
         Quaternion currentRot = transform.rotation;
-
         float counter = 0f;
         while (counter < 0.5 && hit)
         {
+            _collider.enabled = false;
             counter += Time.deltaTime;
+            
             transform.rotation = Quaternion.Lerp(currentRot, Quaternion.Euler(new Vector3(90f, 0f, 0f)), counter / 0.5f);
             yield return null;
         }
-
-        _collider.enabled = false;
     }
-    
+     
     IEnumerator ResetTarget()
     {
         Quaternion currentRot = transform.rotation;
@@ -68,6 +67,8 @@ public class Target : MonoBehaviour
         float counter = 0f;
         while (counter < 0.5f)
         {
+            hit = false;
+            _collider.enabled = true;
             counter += Time.deltaTime;
             transform.rotation = Quaternion.Lerp(currentRot, Quaternion.Euler(new Vector3(0f, 0f, 0f)), counter / 0.5f);
             yield return null;

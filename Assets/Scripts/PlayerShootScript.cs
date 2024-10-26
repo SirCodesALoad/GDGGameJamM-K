@@ -44,8 +44,6 @@ public class PlayerShootScript : MonoBehaviour
             new UnityEvent();
         }
 
-        GameFailure.AddListener(GameObject.Find("GameManager").GetComponent<GameManager>().OnGameLost);
-
         // Get new or persistent ammo values
         if(gameData.NewRun == true)
         {
@@ -81,10 +79,14 @@ public class PlayerShootScript : MonoBehaviour
         {
             AmmoChangedEvent.AddListener(AmmoCounterUis[i].UpdateAmmo);
         }
-        
-        AmmoChangedEvent.Invoke();
 
         PlayerSwapActiveAmmo(AmmoTypes.Bullet);
+        this.Invoke("InvokeAmmoChangedEvent", 0.2f);
+    }
+
+    void InvokeAmmoChangedEvent()
+    {
+        AmmoChangedEvent.Invoke();
     }
 
     public void PlayerSwapActiveAmmo(AmmoTypes ammo)
@@ -103,6 +105,11 @@ public class PlayerShootScript : MonoBehaviour
         {
 			//MuzzleFlash.Play();
             Fire(mouseWorldPos);
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
         }
 
         gameData.GameTime += Time.deltaTime;
@@ -140,6 +147,7 @@ public class PlayerShootScript : MonoBehaviour
         if (currentAmmo <= 0 && explodeAmmo  <= 0 && penAmmo <= 0 && riochetAmmo <= 0)
         {
             //We've run out of ammo game failure.
+            GameFailure.AddListener(GameObject.Find("GameManager").GetComponent<GameManager>().OnGameLost);
             GameFailure.Invoke();
             return false;
         }
