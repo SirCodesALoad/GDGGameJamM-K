@@ -82,6 +82,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  RegGunShot: {fileID: 8300000, guid: 4dd852ca3796f534e82f93666f461a89, type: 3}
+  PenGunShot: {fileID: 8300000, guid: 8c80dce7c354c5c4fae2aa8da641ebe3, type: 3}
+  RicGunShot: {fileID: 8300000, guid: 56ee096b020c949469363125bd084bac, type: 3}
+  ExpGunShot: {fileID: 8300000, guid: c3db50878a7386048a4cdaa17c486d8d, type: 3}
 --- !u!1 &2380986437122007915
 GameObject:
   m_ObjectHideFlags: 0
