@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 using UnityEngine.EventSystems;
 
@@ -118,7 +119,7 @@ public class PlayerShootScript : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Escape))
         {
-            Application.Quit();
+            SceneManager.LoadScene(0);
         }
 
         gameData.GameTime += Time.deltaTime;
