@@ -20,11 +20,27 @@ public class GameManager : MonoBehaviour
     public AudioClip SceneProgressionSound;
     public AudioClip SceneRegressionSound;
     public AudioClip TargetResetSound;
+    public AudioClip GameWinSound;
+    public AudioClip GameLoseSound;
+
     public AudioSource audio;
 
     void Start()
     {
         audio = GetComponent<AudioSource>();
+
+        //String scene = SceneManager.GetActiveScene().name;
+
+        if (SceneManager.GetActiveScene().name == "PZ_GameWon")
+        {
+            GetComponent<AudioSource>().clip = GameWinSound;
+            GetComponent<AudioSource>().Play(0);
+        }
+        else if (SceneManager.GetActiveScene().name == "PZ_GameLost")
+        {
+            GetComponent<AudioSource>().clip = GameLoseSound;
+            GetComponent<AudioSource>().Play(0);
+        }
     }
 
     public void PlayerHitTarget(Target target)

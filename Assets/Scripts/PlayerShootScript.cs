@@ -39,6 +39,8 @@ public class PlayerShootScript : MonoBehaviour
     public AudioClip RicGunShot;
     public AudioClip ExpGunShot;
 
+    public AudioClip BulletSelectSound;
+
     public AudioClip GunDraw;
 
     public AudioSource audio;
