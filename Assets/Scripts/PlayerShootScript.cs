@@ -115,7 +115,7 @@ public class PlayerShootScript : MonoBehaviour
     void Update()
     {
         Vector3 mouseScreenPos = Input.mousePosition;
-        Vector3 mouseWorldPos = Camera.main.ScreenPointToRay(mouseScreenPos).GetPoint(200f);
+        Vector3 mouseWorldPos = Camera.main.ScreenPointToRay(mouseScreenPos).GetPoint(52f);
         bulletOrigin.transform.LookAt(mouseWorldPos);
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && CheckIfCanFire())
         {
