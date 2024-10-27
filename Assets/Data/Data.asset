@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00f1f154275b4c54591c36ebe8227478, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: 
-  NewRun: 0
-  DefaultRegAmmo: 200
+  NewRun: 1
+  DefaultRegAmmo: 180
   DefaultPenAmmo: 10
   DefaultRicAmmo: 10
   DefaultExpAmmo: 5
-  CurrentRegAmmo: 196
+  CurrentRegAmmo: 991
   CurrentPenAmmo: 0
   CurrentRicAmmo: 0
   CurrentExpAmmo: 4
