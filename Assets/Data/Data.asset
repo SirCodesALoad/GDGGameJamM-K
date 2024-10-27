@@ -19,15 +19,15 @@ MonoBehaviour:
   DefaultExpAmmo: 5
   CurrentRegAmmo: 991
   CurrentPenAmmo: 0
-  CurrentRicAmmo: -22
-  CurrentExpAmmo: -1
-  RegShotsFired: 595
+  CurrentRicAmmo: 0
+  CurrentExpAmmo: 4
+  RegShotsFired: 4
   PenShotsFired: 0
-  RicShotsFired: 22
+  RicShotsFired: 0
   ExpShotsFired: 1
-  TotalShotsFired: 618
-  TargetSetsPassed: 54
-  TargetSetsFailed: 156
-  LevelProgressions: 54
-  LevelRegressions: 18
-  GameTime: 1642.9879
+  TotalShotsFired: 5
+  TargetSetsPassed: 1
+  TargetSetsFailed: 0
+  LevelProgressions: 1
+  LevelRegressions: 0
+  GameTime: 20.185741

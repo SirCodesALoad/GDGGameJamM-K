@@ -39,6 +39,10 @@ public class PlayerShootScript : MonoBehaviour
     public AudioClip RicGunShot;
     public AudioClip ExpGunShot;
 
+    public AudioClip BulletSelectSound;
+
+    public AudioClip GunDraw;
+
     public AudioSource audio;
 
     // Start is called before the first frame update
@@ -67,6 +71,9 @@ public class PlayerShootScript : MonoBehaviour
             gameData.CurrentPenAmmo = gameData.DefaultPenAmmo;
             gameData.CurrentExpAmmo = gameData.DefaultExpAmmo;
             gameData.NewRun = false;
+
+            GetComponent<AudioSource>().clip = GunDraw;
+            GetComponent<AudioSource>().Play(0);
         }
         else
         {
@@ -187,6 +194,8 @@ public class PlayerShootScript : MonoBehaviour
                 currentAmmo--;
                 gameData.RegShotsFired++;
                 gameData.CurrentRegAmmo = currentAmmo;
+                GetComponent<AudioSource>().clip = RegGunShot;
+                GetComponent<AudioSource>().Play(0);
                 break;
             case AmmoTypes.Riochet:
                 bullet.BouncingBullets = true;
@@ -195,6 +204,8 @@ public class PlayerShootScript : MonoBehaviour
                 riochetAmmo--;
                 gameData.RicShotsFired++;
                 gameData.CurrentRicAmmo = riochetAmmo;
+                GetComponent<AudioSource>().clip = RicGunShot;
+                GetComponent<AudioSource>().Play(0);
                 break;
             case AmmoTypes.Pen:
                 bullet.BouncingBullets = false;
@@ -203,6 +214,8 @@ public class PlayerShootScript : MonoBehaviour
                 penAmmo--;
                 gameData.PenShotsFired++;
                 gameData.CurrentPenAmmo = penAmmo;
+                GetComponent<AudioSource>().clip = PenGunShot;
+                GetComponent<AudioSource>().Play(0);
                 break;
             case AmmoTypes.Explode:
                 bullet.BouncingBullets = false;
@@ -211,6 +224,8 @@ public class PlayerShootScript : MonoBehaviour
                 explodeAmmo--;
                 gameData.ExpShotsFired++;
                 gameData.CurrentExpAmmo = explodeAmmo;
+                GetComponent<AudioSource>().clip = ExpGunShot;
+                GetComponent<AudioSource>().Play(0);
                 break;
         }
         AmmoChangedEvent.Invoke();
