@@ -57,12 +57,16 @@ public class PlayerShootScript : MonoBehaviour
         // Get new or persistent ammo values
         if(gameData.NewRun == true)
         {
+            gameData.Reset();
             currentAmmo = gameData.DefaultRegAmmo;
             riochetAmmo = gameData.DefaultRicAmmo;
             penAmmo = gameData.DefaultPenAmmo;
             explodeAmmo = gameData.DefaultExpAmmo;
+            gameData.CurrentRegAmmo =  gameData.DefaultRegAmmo;
+            gameData.CurrentRicAmmo = gameData.DefaultRicAmmo;
+            gameData.CurrentPenAmmo = gameData.DefaultPenAmmo;
+            gameData.CurrentExpAmmo = gameData.DefaultExpAmmo;
             gameData.NewRun = false;
-            gameData.Reset();
         }
         else
         {
@@ -71,6 +75,10 @@ public class PlayerShootScript : MonoBehaviour
             penAmmo = gameData.CurrentPenAmmo;
             explodeAmmo = gameData.CurrentExpAmmo;
         }
+        
+        Debug.Log(riochetAmmo);
+        Debug.Log(penAmmo);
+        Debug.Log(explodeAmmo);
 
         if (AmmoChangedEvent == null)
         {
@@ -109,7 +117,7 @@ public class PlayerShootScript : MonoBehaviour
     void Update()
     {
         Vector3 mouseScreenPos = Input.mousePosition;
-        Vector3 mouseWorldPos = Camera.main.ScreenPointToRay(mouseScreenPos).GetPoint(52f);
+        Vector3 mouseWorldPos = Camera.main.ScreenPointToRay(mouseScreenPos).GetPoint(55f);
         bulletOrigin.transform.LookAt(mouseWorldPos);
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && CheckIfCanFire())
         {

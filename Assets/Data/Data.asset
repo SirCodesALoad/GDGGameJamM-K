@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Data
   m_EditorClassIdentifier: 
   NewRun: 1
-  DefaultRegAmmo: 200
+  DefaultRegAmmo: 180
   DefaultPenAmmo: 10
   DefaultRicAmmo: 10
-  DefaultExpAmmo: 10
+  DefaultExpAmmo: 5
   CurrentRegAmmo: 991
   CurrentPenAmmo: 0
   CurrentRicAmmo: -22
