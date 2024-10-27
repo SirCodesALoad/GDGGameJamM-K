@@ -87,6 +87,7 @@ MonoBehaviour:
   PenGunShot: {fileID: 8300000, guid: 8c80dce7c354c5c4fae2aa8da641ebe3, type: 3}
   RicGunShot: {fileID: 8300000, guid: 56ee096b020c949469363125bd084bac, type: 3}
   ExpGunShot: {fileID: 8300000, guid: c3db50878a7386048a4cdaa17c486d8d, type: 3}
+  GunDraw: {fileID: 8300000, guid: 3d0efeed0466f844baca118fa1c79022, type: 3}
   audio: {fileID: 0}
 --- !u!82 &-2258168913759140292
 AudioSource:

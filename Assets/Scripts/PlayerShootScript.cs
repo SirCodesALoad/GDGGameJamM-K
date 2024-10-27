@@ -39,6 +39,8 @@ public class PlayerShootScript : MonoBehaviour
     public AudioClip RicGunShot;
     public AudioClip ExpGunShot;
 
+    public AudioClip GunDraw;
+
     public AudioSource audio;
 
     // Start is called before the first frame update
@@ -63,6 +65,8 @@ public class PlayerShootScript : MonoBehaviour
             explodeAmmo = gameData.DefaultExpAmmo;
             gameData.NewRun = false;
             gameData.Reset();
+            GetComponent<AudioSource>().clip = GunDraw;
+            GetComponent<AudioSource>().Play(0);
         }
         else
         {
